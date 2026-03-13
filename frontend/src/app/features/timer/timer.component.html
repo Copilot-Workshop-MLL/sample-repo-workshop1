@@ -52,6 +52,7 @@
         <!-- Progress ring -->
         <circle
           class="ring-progress"
+          [class.ring-progress--instant]="ringInstantReset"
           [attr.cx]="svgSize / 2"
           [attr.cy]="svgSize / 2"
           [attr.r]="ringRadius"

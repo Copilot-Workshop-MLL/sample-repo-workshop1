@@ -36,6 +36,10 @@ describe('TimerComponent', () => {
     expect(component.state).toBe('idle');
   });
 
+  it('ringInstantReset is false initially', () => {
+    expect(component.ringInstantReset).toBeFalse();
+  });
+
   // ── Timer display ─────────────────────────────────────────────────────────
 
   it('displayTime should format single-digit minutes/seconds with leading zeros', () => {
@@ -81,6 +85,13 @@ describe('TimerComponent', () => {
     expect(component.remainingTime).toBe(component.totalTime);
   });
 
+  it('reset() sets ringInstantReset to true for the current frame', () => {
+    component.start();
+    (component as any).remainingTime = 100;
+    component.reset();
+    expect(component.ringInstantReset).toBeTrue();
+  });
+
   it('start() is idempotent when already running', () => {
     component.start();
     const id1 = (component as any).intervalId;
@@ -117,6 +128,12 @@ describe('TimerComponent', () => {
     expect(component.state).toBe('idle');
     expect(component.totalTime).toBe(5 * 60);
     expect(component.remainingTime).toBe(5 * 60);
+  });
+
+  it('switchSession() sets ringInstantReset to true for the current frame', () => {
+    component.start();
+    component.switchSession('break');
+    expect(component.ringInstantReset).toBeTrue();
   });
 
   it('switchSession("focus") restores 25-minute total', () => {

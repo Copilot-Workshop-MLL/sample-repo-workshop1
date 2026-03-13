@@ -1,0 +1,150 @@
+:host {
+  display: block;
+}
+
+.timer-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 64px);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+// ── Ambient particle canvas ──────────────────────────────────────────────────
+.particle-canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border-radius: 50%;
+
+  &.canvas--hidden {
+    display: none;
+  }
+}
+
+// Respect user's reduced-motion preference — hide canvas entirely
+@media (prefers-reduced-motion: reduce) {
+  .particle-canvas {
+    display: none !important;
+  }
+}
+
+// ── Timer card ───────────────────────────────────────────────────────────────
+.timer-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  background: var(--card-bg, #fff);
+  border-radius: 16px;
+  padding: 32px 40px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  position: relative;
+  z-index: 1;
+}
+
+// ── Session tabs ─────────────────────────────────────────────────────────────
+.session-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tab-btn {
+  padding: 6px 20px;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: #f0f0f0;
+  color: #555;
+  transition: background 0.2s, color 0.2s;
+
+  &--active {
+    background: #3b82f6;
+    color: #fff;
+  }
+
+  &:hover:not(.tab-btn--active) {
+    background: #e0e0e0;
+  }
+}
+
+// ── SVG ring ─────────────────────────────────────────────────────────────────
+.ring-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring-track {
+  stroke: #e5e7eb;
+}
+
+.ring-progress {
+  transform-origin: center;
+  transform: rotate(-90deg);
+  transition: stroke-dashoffset 0.8s ease, stroke 0.6s ease;
+
+  // Smooth animation preference: still animate progress ring for those who
+  // prefer reduced motion (the ring is not motion-heavy), but skip particles.
+  // If you'd like to also disable the ring transition, uncomment below:
+  // @media (prefers-reduced-motion: reduce) {
+  //   transition: none;
+  // }
+}
+
+// ── Time display ─────────────────────────────────────────────────────────────
+.time-display {
+  position: absolute;
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #1f2937;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+
+// ── Control buttons ───────────────────────────────────────────────────────────
+.controls {
+  display: flex;
+  gap: 12px;
+}
+
+.ctrl-btn {
+  padding: 10px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+
+  &:hover {
+    opacity: 0.88;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &--start {
+    background: #3b82f6;
+    color: #fff;
+  }
+
+  &--pause {
+    background: #f59e0b;
+    color: #fff;
+  }
+
+  &--reset {
+    background: #e5e7eb;
+    color: #374151;
+  }
+}

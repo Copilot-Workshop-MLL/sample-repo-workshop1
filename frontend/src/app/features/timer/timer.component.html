@@ -1,0 +1,98 @@
+<div class="timer-page">
+  <!-- Ambient particle canvas (focus sessions only) -->
+  <canvas
+    #particleCanvas
+    class="particle-canvas"
+    [class.canvas--hidden]="session !== 'focus' || state === 'idle'"
+    width="440"
+    height="440"
+    aria-hidden="true"
+  ></canvas>
+
+  <div class="timer-card">
+    <!-- Session tabs -->
+    <div class="session-tabs" role="tablist" aria-label="Timer session">
+      <button
+        role="tab"
+        [attr.aria-selected]="session === 'focus'"
+        class="tab-btn"
+        [class.tab-btn--active]="session === 'focus'"
+        (click)="switchSession('focus')"
+      >
+        Focus
+      </button>
+      <button
+        role="tab"
+        [attr.aria-selected]="session === 'break'"
+        class="tab-btn"
+        [class.tab-btn--active]="session === 'break'"
+        (click)="switchSession('break')"
+      >
+        Break
+      </button>
+    </div>
+
+    <!-- SVG ring + time display -->
+    <div class="ring-wrapper" [attr.aria-label]="'Timer: ' + displayTime">
+      <svg
+        [attr.width]="svgSize"
+        [attr.height]="svgSize"
+        [attr.viewBox]="'0 0 ' + svgSize + ' ' + svgSize"
+        aria-hidden="true"
+      >
+        <!-- Background track ring -->
+        <circle
+          class="ring-track"
+          [attr.cx]="svgSize / 2"
+          [attr.cy]="svgSize / 2"
+          [attr.r]="ringRadius"
+          fill="none"
+          stroke-width="10"
+        />
+        <!-- Progress ring -->
+        <circle
+          class="ring-progress"
+          [attr.cx]="svgSize / 2"
+          [attr.cy]="svgSize / 2"
+          [attr.r]="ringRadius"
+          fill="none"
+          stroke-width="10"
+          [attr.stroke]="ringColor"
+          [attr.stroke-dasharray]="circumference"
+          [attr.stroke-dashoffset]="strokeDashoffset"
+          stroke-linecap="round"
+        />
+      </svg>
+
+      <div class="time-display" aria-live="off">{{ displayTime }}</div>
+    </div>
+
+    <!-- Control buttons -->
+    <div class="controls" role="group" aria-label="Timer controls">
+      <button
+        *ngIf="state !== 'running'"
+        class="ctrl-btn ctrl-btn--start"
+        (click)="start()"
+        [attr.aria-label]="state === 'paused' ? 'Resume timer' : 'Start timer'"
+      >
+        {{ state === 'paused' ? '▶ Resume' : '▶ Start' }}
+      </button>
+      <button
+        *ngIf="state === 'running'"
+        class="ctrl-btn ctrl-btn--pause"
+        (click)="pause()"
+        aria-label="Pause timer"
+      >
+        ⏸ Pause
+      </button>
+      <button
+        *ngIf="state !== 'idle'"
+        class="ctrl-btn ctrl-btn--reset"
+        (click)="reset()"
+        aria-label="Reset timer"
+      >
+        ↺ Reset
+      </button>
+    </div>
+  </div>
+</div>

@@ -263,17 +263,22 @@ export class TimerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 /**
  * Returns a smoothly interpolated hex color based on how much time has elapsed.
- * Blue (0-40% elapsed) → Yellow (40-70%) → Red (70-100%)
+ * Blue (0–40% elapsed) → Yellow (40–70% elapsed) → Red (70–100% elapsed)
+ * Corresponds to: 100–60% remaining → 60–30% remaining → 30–0% remaining
  */
 export function getTimerColor(elapsed: number, total: number): string {
   const t = total > 0 ? elapsed / total : 0;
 
-  // Blue → Yellow (t: 0 → 0.7)
-  // Yellow → Red  (t: 0.7 → 1)
+  // Blue → Yellow (t: 0 → 0.4, i.e. 100% → 60% remaining)
   if (t <= 0.4) {
     return lerpColor('#3b82f6', '#f59e0b', t / 0.4);
   }
-  return lerpColor('#f59e0b', '#ef4444', (t - 0.4) / 0.6);
+  // Yellow → Red  (t: 0.4 → 0.7, i.e. 60% → 30% remaining)
+  if (t <= 0.7) {
+    return lerpColor('#f59e0b', '#ef4444', (t - 0.4) / 0.3);
+  }
+  // Full red (t: 0.7 → 1, i.e. 30% → 0% remaining)
+  return '#ef4444';
 }
 
 function lerpColor(a: string, b: string, t: number): string {

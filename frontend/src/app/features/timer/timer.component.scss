@@ -97,6 +97,10 @@
   // @media (prefers-reduced-motion: reduce) {
   //   transition: none;
   // }
+
+  &--instant {
+    transition: none;
+  }
 }
 
 // ── Time display ─────────────────────────────────────────────────────────────

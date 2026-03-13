@@ -46,9 +46,11 @@ export class TimerComponent implements OnInit, AfterViewInit, OnDestroy {
   circumference = CIRCUMFERENCE;
   svgSize = SVG_SIZE;
   ringRadius = RING_RADIUS;
+  ringInstantReset = false;
 
   private intervalId: ReturnType<typeof setInterval> | null = null;
   private animFrameId: number | null = null;
+  private resetFrameId: number | null = null;
   private particles: Particle[] = [];
   private ctx: CanvasRenderingContext2D | null = null;
   private prefersReducedMotion = false;
@@ -76,6 +78,10 @@ export class TimerComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.clearInterval();
     this.stopParticles();
+    if (this.resetFrameId !== null) {
+      cancelAnimationFrame(this.resetFrameId);
+      this.resetFrameId = null;
+    }
   }
 
   // ── Computed display values ──────────────────────────────────────────────
@@ -122,6 +128,7 @@ export class TimerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.clearInterval();
     this.stopParticles();
     this.particles = [];
+    this.applyInstantRingReset();
     this.remainingTime = this.totalTime;
     this.clearCanvas();
   }
@@ -135,6 +142,7 @@ export class TimerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.session = session;
     this.totalTime =
       session === 'focus' ? FOCUS_DURATION_SECONDS : BREAK_DURATION_SECONDS;
+    this.applyInstantRingReset();
     this.remainingTime = this.totalTime;
   }
 
@@ -149,6 +157,19 @@ export class TimerComponent implements OnInit, AfterViewInit, OnDestroy {
       this.clearInterval();
       this.stopParticles();
     }
+  }
+
+  private applyInstantRingReset(): void {
+    if (this.resetFrameId !== null) {
+      cancelAnimationFrame(this.resetFrameId);
+    }
+    this.ringInstantReset = true;
+    this.cdr.detectChanges();
+    this.resetFrameId = requestAnimationFrame(() => {
+      this.resetFrameId = null;
+      this.ringInstantReset = false;
+      this.cdr.detectChanges();
+    });
   }
 
   private clearInterval(): void {

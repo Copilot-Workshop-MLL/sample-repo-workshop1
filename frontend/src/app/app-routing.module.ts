@@ -35,6 +35,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./features/orders/orders.module').then((m) => m.OrdersModule),
   },
+  {
+    path: 'timer',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./features/timer/timer.module').then((m) => m.TimerModule),
+  },
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: '**', redirectTo: 'dashboard' },
 ];

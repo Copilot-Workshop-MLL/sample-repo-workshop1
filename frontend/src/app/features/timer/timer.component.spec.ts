@@ -187,4 +187,23 @@ describe('getTimerColor', () => {
   it('produces a different color at 50% elapsed vs 0%', () => {
     expect(getTimerColor(50, 100)).not.toBe(getTimerColor(0, 100));
   });
+
+  it('returns yellow at exactly 40% elapsed (60% remaining)', () => {
+    expect(getTimerColor(40, 100)).toBe('#f59e0b');
+  });
+
+  it('returns red at exactly 70% elapsed (30% remaining)', () => {
+    expect(getTimerColor(70, 100)).toBe('#ef4444');
+  });
+
+  it('returns red when more than 70% has elapsed', () => {
+    expect(getTimerColor(85, 100)).toBe('#ef4444');
+  });
+
+  it('transitions smoothly: color at 50% elapsed is between yellow and red', () => {
+    const colorAt50 = getTimerColor(50, 100);
+    expect(colorAt50).not.toBe('#f59e0b');
+    expect(colorAt50).not.toBe('#ef4444');
+    expect(colorAt50).toMatch(/^#[0-9a-f]{6}$/i);
+  });
 });

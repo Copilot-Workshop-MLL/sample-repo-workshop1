@@ -1,0 +1,43 @@
+<mat-nav-list>
+  <ng-container *ngFor="let item of navItems">
+
+    <!-- Parent item with sub-menu children -->
+    <ng-container *ngIf="item.children?.length; else leafItem">
+      <mat-list-item class="parent-item" (click)="toggleItem(item.module)">
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span matListItemTitle>{{ item.label }}</span>
+        <mat-icon class="expand-icon">
+          {{ isExpanded(item.module) ? 'expand_more' : 'chevron_right' }}
+        </mat-icon>
+      </mat-list-item>
+
+      <!-- Sub-menu children -->
+      <ng-container *ngIf="isExpanded(item.module)">
+        <a mat-list-item
+           *ngFor="let child of item.children"
+           [routerLink]="child.route"
+           routerLinkActive="active-link"
+           class="child-item">
+          <mat-icon matListItemIcon class="child-icon">{{ child.icon }}</mat-icon>
+          <span matListItemTitle>{{ child.label }}</span>
+        </a>
+      </ng-container>
+    </ng-container>
+
+    <!-- Leaf item (no children) -->
+    <ng-template #leafItem>
+      <a mat-list-item [routerLink]="item.route" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span matListItemTitle>{{ item.label }}</span>
+      </a>
+    </ng-template>
+
+  </ng-container>
+
+  <mat-divider></mat-divider>
+
+  <a mat-list-item (click)="logout()" class="logout-item">
+    <mat-icon matListItemIcon>logout</mat-icon>
+    <span matListItemTitle>Logout</span>
+  </a>
+</mat-nav-list>

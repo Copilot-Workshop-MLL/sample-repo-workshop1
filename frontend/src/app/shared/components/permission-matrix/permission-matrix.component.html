@@ -1,0 +1,97 @@
+<div class="matrix-wrapper">
+  <table class="permission-table mat-elevation-z2">
+    <thead>
+      <tr>
+        <th class="module-col">Module</th>
+        <th *ngFor="let action of actions" class="action-col">
+          <div class="col-header">
+            <mat-checkbox
+              [checked]="isColumnAllChecked(action)"
+              (change)="onColumnAllChange(action, $event.checked)"
+              color="primary"
+            ></mat-checkbox>
+            <span>{{ action | titlecase }}</span>
+          </div>
+        </th>
+        <th class="all-col">All</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let mod of modules">
+
+        <!-- Module has sub-items: show group header then child rows -->
+        <ng-container *ngIf="mod.children?.length; else leafRow">
+
+          <!-- Parent group header row -->
+          <tr class="parent-row">
+            <td class="module-name parent-module-name">
+              <mat-icon class="group-icon">folder</mat-icon>
+              {{ mod.label }}
+            </td>
+            <td *ngFor="let action of actions" class="cell">
+              <mat-checkbox
+                [checked]="isParentColChecked(mod.key, action)"
+                [indeterminate]="isParentColIndeterminate(mod.key, action)"
+                (change)="onParentColChange(mod.key, action, $event.checked)"
+                color="primary"
+              ></mat-checkbox>
+            </td>
+            <td class="cell">
+              <mat-checkbox
+                [checked]="isParentAllChecked(mod.key)"
+                [indeterminate]="isParentAllIndeterminate(mod.key)"
+                (change)="onParentAllChange(mod.key, $event.checked)"
+                color="accent"
+              ></mat-checkbox>
+            </td>
+          </tr>
+
+          <!-- Child rows -->
+          <tr *ngFor="let child of mod.children" class="child-row">
+            <td class="module-name child-module-name">
+              <mat-icon class="child-icon">subdirectory_arrow_right</mat-icon>
+              {{ child.label }}
+            </td>
+            <td *ngFor="let action of actions" class="cell">
+              <mat-checkbox
+                [checked]="getCell(child.key, action)"
+                (change)="onCellChange(child.key, action, $event.checked)"
+                color="primary"
+              ></mat-checkbox>
+            </td>
+            <td class="cell">
+              <mat-checkbox
+                [checked]="isRowAllChecked(child.key)"
+                (change)="onRowAllChange(child.key, $event.checked)"
+                color="accent"
+              ></mat-checkbox>
+            </td>
+          </tr>
+
+        </ng-container>
+
+        <!-- Leaf module (no children): standard row -->
+        <ng-template #leafRow>
+          <tr>
+            <td class="module-name">{{ mod.label }}</td>
+            <td *ngFor="let action of actions" class="cell">
+              <mat-checkbox
+                [checked]="getCell(mod.key, action)"
+                (change)="onCellChange(mod.key, action, $event.checked)"
+                color="primary"
+              ></mat-checkbox>
+            </td>
+            <td class="cell">
+              <mat-checkbox
+                [checked]="isRowAllChecked(mod.key)"
+                (change)="onRowAllChange(mod.key, $event.checked)"
+                color="accent"
+              ></mat-checkbox>
+            </td>
+          </tr>
+        </ng-template>
+
+      </ng-container>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,15 @@
+{
+  "name": "rbac-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && ng serve",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "test:backend": "cd backend && npm test",
+    "test:frontend": "cd frontend && ng test --watch=false --browsers=ChromeHeadless"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

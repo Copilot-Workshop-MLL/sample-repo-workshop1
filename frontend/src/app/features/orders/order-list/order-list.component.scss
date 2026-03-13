@@ -1,0 +1,14 @@
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.action-buttons { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.full-width { width: 100%; }
+.text-muted { color: #888; font-size: 12px; }
+.item-line { font-size: 13px; }
+.status-select { margin-left: 8px; font-size: 13px; width: 120px; }
+.no-data-row td { padding: 24px; text-align: center; color: #888; }
+.search-card { margin-bottom: 16px; padding: 8px 0; }
+.search-field { width: 100%; }
+.status-pending    { background-color: #ff9800 !important; color: white !important; }
+.status-processing { background-color: #2196f3 !important; color: white !important; }
+.status-shipped    { background-color: #9c27b0 !important; color: white !important; }
+.status-delivered  { background-color: #4caf50 !important; color: white !important; }
+.status-cancelled  { background-color: #f44336 !important; color: white !important; }

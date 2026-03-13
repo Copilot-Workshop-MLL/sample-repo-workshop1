@@ -1,0 +1,9 @@
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.action-buttons { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.full-width { width: 100%; }
+.text-muted { color: #888; font-size: 12px; }
+.stock-low { color: #e53935; font-weight: 600; }
+.stock-ok  { color: #43a047; font-weight: 600; }
+.no-data-row td { padding: 24px; text-align: center; color: #888; }
+.search-card { margin-bottom: 16px; padding: 8px 0; }
+.search-field { width: 100%; }

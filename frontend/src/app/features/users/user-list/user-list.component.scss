@@ -1,0 +1,7 @@
+.spacer { flex: 1 1 auto; }
+.full-width { width: 100%; }
+.loading-center { display: flex; justify-content: center; padding: 40px; }
+.empty-msg { text-align: center; color: #888; padding: 24px; }
+mat-card-header { display: flex; align-items: center; margin-bottom: 16px; }
+.badge-active { background: #e8f5e9; color: #388e3c; padding: 2px 8px; border-radius: 12px; font-size: 12px; }
+.badge-inactive { background: #fce4ec; color: #c62828; padding: 2px 8px; border-radius: 12px; font-size: 12px; }
